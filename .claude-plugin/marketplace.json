@@ -1,0 +1,20 @@
+{
+  "name": "cymetica",
+  "owner": {
+    "name": "Cymetica",
+    "email": "contact@cymetica.com",
+    "url": "https://cymetica.com"
+  },
+  "metadata": {
+    "description": "Plugins from Cymetica, the company behind EventTrader."
+  },
+  "plugins": [
+    {
+      "name": "eventtrader-funds",
+      "source": "./",
+      "description": "Read-only research on the Tuatara-managed funds at cymetica.com/fund-performance. No API key.",
+      "category": "finance",
+      "homepage": "https://cymetica.com/fund-performance"
+    }
+  ]
+}

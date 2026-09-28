@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "eventtrader-funds": {
+      "type": "http",
+      "url": "https://cymetica.com/mcp/v1/funds",
+      "headers": {
+        "User-Agent": "eventtrader-funds-plugin/1.1"
+      }
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+ "tools": [
+  {
+   "name": "list_funds",
+   "title": "List Funds",
+   "description": "Every Tuatara-managed fund on cymetica.com/fund-performance as ONE ranked list \u2014 name, sleeve, long/short, status (live / paper / standing), $ index level and % return since inception \u2014 plus the long/short mandate. Read-only, no auth. Percentages and index levels only; capital figures are never published. Start here, then get_fund for one fund.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "status": {
+      "type": "string",
+      "description": "live | paper | standing | all (default all)"
+     },
+     "limit": {
+      "type": "integer",
+      "description": "max rows (default 50, max 100)"
+     }
+    }
+   },
+   "annotations": {
+    "title": "List Funds",
+    "readOnlyHint": true,
+    "destructiveHint": false,
+    "idempotentHint": true,
+    "openWorldHint": false
+   }
+  },
+  {
+   "name": "get_fund",
+   "title": "Get Fund",
+   "description": "One fund in full public detail: theme, mandate, direction, status, constituents where disclosed (short books aliased; open M&A baskets withheld), $ index level, % return since inception, profile / trade / invest URLs and focus areas. Symbol from list_funds (AIB symbols, or MA-RIPPLE, FTA-CRYPTOS, FTA-STOCKS, EVENT-CARD). Read-only, no auth.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "symbol": {
+      "type": "string",
+      "description": "fund symbol from list_funds"
+     }
+    },
+    "required": [
+     "symbol"
+    ]
+   },
+   "annotations": {
+    "title": "Get Fund",
+    "readOnlyHint": true,
+    "destructiveHint": false,
+    "idempotentHint": true,
+    "openWorldHint": false
+   }
+  },
+  {
+   "name": "get_fund_history",
+   "title": "Get Fund History",
+   "description": "Index history for one fund as [{t, v}] points, always including the fund's first (inception) point and its latest point \u2014 the whole history is evenly downsampled to fit, never a tail slice, so points[0].v matches get_fund's inception_index_price_usd (AIB funds: nominally-hourly writes, actual spacing varies; MA-RIPPLE: daily value of $100 at inception; FTA-CRYPTOS: 30-day daily closes). FTA-STOCKS and EVENT-CARD have no history series \u2014 use get_fund for their current numbers. Read-only, no auth.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {
+     "symbol": {
+      "type": "string",
+      "description": "fund symbol from list_funds"
+     },
+     "points": {
+      "type": "integer",
+      "description": "target point count, first/last always kept (default 80, max 400)"
+     }
+    },
+    "required": [
+     "symbol"
+    ]
+   },
+   "annotations": {
+    "title": "Get Fund History",
+    "readOnlyHint": true,
+    "destructiveHint": false,
+    "idempotentHint": true,
+    "openWorldHint": false
+   }
+  },
+  {
+   "name": "get_fund_methodology",
+   "title": "Get Fund Methodology",
+   "description": "How every fund figure is measured and what is withheld and why: index construction, since-inception returns (sign-corrected for short books), status meanings, disclosure rules, execution venue alias, not-advice notice and the page URLs to cite. Read this once before quoting any fund number to a client.",
+   "inputSchema": {
+    "type": "object",
+    "properties": {}
+   },
+   "annotations": {
+    "title": "Get Fund Methodology",
+    "readOnlyHint": true,
+    "destructiveHint": false,
+    "idempotentHint": true,
+    "openWorldHint": false
+   }
+  }
+ ]
+}
