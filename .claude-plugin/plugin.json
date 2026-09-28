@@ -1,7 +1,7 @@
 {
   "name": "eventtrader-funds",
   "displayName": "EventTrader Funds",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Read-only research on the Tuatara-managed funds published at cymetica.com/fund-performance: ranked list, one fund in detail, index history and the measurement rules, with a client-ready fund brief. No API key, no account, no trading.",
   "author": {
     "name": "Cymetica",

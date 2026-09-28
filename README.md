@@ -71,17 +71,26 @@ touch no user data.
 
 ## Limits
 
-Anonymous callers get 10 requests per minute, 100 per hour and 500 per day,
-one concurrent connection, 10 KB per message. Fund data is served from a
-short-lived cache, so a burst of advisor queries costs one build. Over the
-limit the server answers with a JSON-RPC error; wait and retry.
+Each client address gets 120 requests per minute, 3,000 per hour and 30,000
+per day. Fund data is served from a short-lived cache, so a burst of advisor
+queries costs one build. Over the limit the server answers with a JSON-RPC
+error (`RATE_LIMITED`) that says how many seconds to wait before retrying.
 
 ## Errors
 
-Every tool returns `{"success": false, "error": {"code", "message"}}` on a
-problem. Codes: `MISSING_PARAMETER`, `INVALID_PARAMETER_TYPE`,
-`TOOL_NOT_FOUND` (unknown fund symbol — call `list_funds`), `TOOL_ERROR`
-(data temporarily unavailable). No internal detail is ever returned.
+A failed call comes back as an MCP tool result with `isError: true` and a
+JSON body naming a code and a readable message:
+
+- `MISSING_PARAMETER` / `INVALID_PARAMETER_TYPE`: an argument is missing or
+  the wrong type, e.g. "Missing required parameter: symbol".
+- `TOOL_NOT_FOUND`: an unknown fund symbol ("call list_funds"), or a history
+  request for `FTA-STOCKS` / `EVENT-CARD`, which have no series.
+- `INVALID_PARAMETER_TYPE` from `list_funds`: `status` is not one of
+  `live`, `paper`, `standing`, `all`.
+- `TOOL_ERROR`: fund data is temporarily unavailable; retry shortly.
+
+A history request can also succeed with no points; the response then carries
+a `note` saying so. No internal detail is ever returned.
 
 ## What this plugin runs, sends and fetches
 
